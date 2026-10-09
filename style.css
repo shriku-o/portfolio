@@ -4,13 +4,3 @@ body {
   margin-inline: auto;
   padding: 2rem;
 }
-
-nav,
-h1,
-body > p {
-  text-align: center;
-}
-
-nav a {
-  margin: 0 0.5rem;
-}
