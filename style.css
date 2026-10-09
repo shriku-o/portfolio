@@ -10,7 +10,7 @@ body {
   padding: 2rem;
 }
 
-/* Step 2: navigation */
+/* Step 2*/
 nav ul,
 nav li {
   display: contents;
@@ -40,14 +40,14 @@ nav a:hover {
   padding-bottom: 0.1em;
 }
 
-/* Step 3.1: form typography */
+/* Step 3.1 */
 input,
 textarea,
 button {
   font: inherit;
 }
 
-/* Step 3.3: grid layout */
+/* Step 3.3*/
 form {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -65,7 +65,7 @@ form button {
 }
 
 
-/* Step 4.2 and 4.3: projects grid */
+/* Step 4.2-4.3*/
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
@@ -82,7 +82,7 @@ form button {
   margin: 0;
 }
 
-/* Step 4.4: finishing touches */
+/* Step 4.4*/
 h1 {
   font-size: 400%;
 }
