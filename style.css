@@ -63,3 +63,31 @@ form label {
 form button {
   grid-column: 1 / -1;
 }
+
+
+/* Step 4.2 and 4.3: projects grid */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
+}
+
+.projects article {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+}
+
+.projects article h2 {
+  margin: 0;
+}
+
+/* Step 4.4: finishing touches */
+h1 {
+  font-size: 400%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+  text-wrap: balance;
+}
