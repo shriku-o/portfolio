@@ -1,6 +1,6 @@
 body {
   font: 100%/1.5 system-ui;
-  margin-inline: max(1em, (100% - 100ch) / 2);
+  margin-inline: max(3em, (100% - 100ch) / 2);
 }
 
 nav,
