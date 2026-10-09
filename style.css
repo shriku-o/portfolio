@@ -10,6 +10,7 @@ body {
   padding: 2rem;
 }
 
+/* Step 2: navigation */
 nav ul,
 nav li {
   display: contents;
@@ -37,4 +38,28 @@ nav a.current {
 nav a:hover {
   border-bottom: 0.4em solid var(--color-accent);
   padding-bottom: 0.1em;
+}
+
+/* Step 3.1: form typography */
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+/* Step 3.3: grid layout */
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1em;
+}
+
+form label {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+}
+
+form button {
+  grid-column: 1 / -1;
 }
