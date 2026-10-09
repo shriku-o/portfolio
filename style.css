@@ -3,5 +3,17 @@ body {
   max-width: 100ch;
   margin-inline: auto;
   padding: 2rem;
-  background: yellow;
+}
+
+nav ul,
+nav li {
+  display: contents;
+}
+
+nav {
+  display: flex;
+}
+
+nav a {
+  flex: 1;
 }
