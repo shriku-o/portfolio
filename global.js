@@ -117,5 +117,10 @@ export function renderProjects(projects, containerElement, headingLevel = "h2") 
       <p>${project.description ?? ""}</p>
     `;
     containerElement.appendChild(article);
-  }
+  } 
+}
+
+
+export async function fetchGitHubData(username) {
+  return fetchJSON(`https://api.github.com/users/${username}`);
 }

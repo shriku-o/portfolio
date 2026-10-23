@@ -103,3 +103,26 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 80%;
   font-family: inherit;
 }
+
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25em 1em;
+  margin: 0;
+  text-align: center;
+}
+
+#profile-stats dt {
+  grid-row: 1;
+  font-size: 80%;
+  text-transform: uppercase;
+  color: gray;
+}
+
+#profile-stats dd {
+  grid-row: 2;
+  margin: 0;
+  font-size: 200%;
+  font-weight: bold;
+}
