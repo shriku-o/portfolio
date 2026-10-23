@@ -10,3 +10,4 @@ const title = document.querySelector('.projects-title');
 if (title && projects) {
   title.textContent = `${projects.length} Projects`;
 }
+
