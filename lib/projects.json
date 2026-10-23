@@ -1,14 +1,80 @@
 [
-  { "title": "Lorem ipsum dolor sit", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum." },
-  { "title": "Amet consectetur adipisicing elit", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Quisquam voluptatum, quod, quia, voluptates quibusdam voluptate quae." },
-  { "title": "Quisquam voluptatum quod", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Voluptates quibusdam voluptate quae, dolorum nesciunt, accusantium ipsa." },
-  { "title": "Voluptates quibusdam voluptate quae", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Dolorum nesciunt accusantium ipsa, repellat mollitia, deserunt laudantium." },
-  { "title": "Dolorum nesciunt accusantium", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Repellat mollitia deserunt laudantium, tempora odit, facilis fugit." },
-  { "title": "Repellat mollitia deserunt laudantium", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Tempora odit facilis fugit, cumque vero eaque, ratione sapiente." },
-  { "title": "Tempora odit facilis", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Cumque vero eaque ratione sapiente, perferendis aliquid, ducimus." },
-  { "title": "Cumque vero eaque ratione", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Perferendis aliquid ducimus, harum alias, numquam placeat, error." },
-  { "title": "Perferendis aliquid ducimus", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Harum alias numquam placeat error, explicabo atque, minima." },
-  { "title": "Harum alias numquam placeat", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Explicabo atque minima, dignissimos totam, voluptas, natus." },
-  { "title": "Explicabo atque minima", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Dignissimos totam voluptas natus, ullam eveniet, beatae neque." },
-  { "title": "Dignissimos totam voluptas natus", "image": "https://vis-society.github.io/labs/2/images/empty.svg", "description": "Ullam eveniet beatae neque, fugiat laboriosam, itaque vitae." }
+  {
+    "title": "Sleep Architecture and Cognition in Adolescents with OSA",
+    "year": "2026",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Applied linear mixed-effects models (R, lme4) to longitudinal home-EEG data to study how nightly sleep variability relates to memory, attention, and executive function in adolescents with obstructive sleep apnea."
+  },
+  {
+    "title": "Personal Portfolio Website",
+    "year": "2026",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Responsive portfolio built with HTML, CSS, and JavaScript, featuring a dynamic nav menu, dark mode switch, and projects loaded from JSON and the GitHub API."
+  },
+  {
+    "title": "fNIRS Neuroimaging Data Cleaning Pipeline",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Cleaned and analyzed fNIRS neuroimaging datasets from 20+ participants using Python and Pandas to support cognitive and psychological research at Stanford Medicine."
+  },
+  {
+    "title": "Research Workflow Automation and Data Backup",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Built automated data backup systems and streamlined experiment setup, cutting processing time by 30% and preparation time by 50%."
+  },
+  {
+    "title": "PTSD Comparative Study Analysis",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Cleaned and analyzed clinical datasets for a comparative PTSD study, contributing to an academic publication."
+  },
+  {
+    "title": "Educator Data Management Workflows",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Streamlined lesson planning and resource tracking for 100+ educators using SQL and Excel."
+  },
+  {
+    "title": "Overwatch Statistics and Match Maker Bot",
+    "year": "2024",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Discord bot that pulls data from recorded games, computes player performance statistics every ten minutes, and updates a website with match stats."
+  },
+  {
+    "title": "School Achievement Dashboards",
+    "year": "2024",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Used SQL to extract and clean academic data across 99 schools, then built Excel and Tableau dashboards showing student achievement trends."
+  },
+  {
+    "title": "Teacher Curriculum Performance Analysis",
+    "year": "2024",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Applied statistical modeling to curriculum data for 143 teachers and turned raw metrics into recommendations for instructional strategy and student engagement."
+  },
+  {
+    "title": "Bay Area School District Equity Comparison",
+    "year": "2023",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Compared Bay Area school district datasets to identify disparities in funding, performance, and equity, informing education policy recommendations."
+  },
+  {
+    "title": "Data-Driven Community Workshops",
+    "year": "2023",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Designed and led workshops for underserved communities, using demographic and academic data to guide equitable resource planning."
+  },
+  {
+    "title": "Customer Feedback System",
+    "year": "2022",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Developed a system to collect and track customer feedback for Erik's Delicafe, increasing customer satisfaction by 30%."
+  },
+  {
+    "title": "Fundraising Project Coordination",
+    "year": "2021",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Led fundraising efforts by initiating 100 projects and forming 10 partnerships, while managing office data sheets to keep daily operations running smoothly."
+  }
 ]
