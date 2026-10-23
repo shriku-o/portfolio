@@ -75,3 +75,47 @@ select.addEventListener("input", function (event) {
   setColorScheme(event.target.value);
   localStorage.colorScheme = event.target.value;
 });
+
+// Lab 4, Step 1.2: fetch JSON data
+export async function fetchJSON(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching or parsing JSON data:", error);
+  }
+}
+
+// Lab 4, Step 1.4: render projects into a container
+export function renderProjects(projects, containerElement, headingLevel = "h2") {
+  if (!(containerElement instanceof Element)) {
+    console.error("renderProjects: invalid container element");
+    return;
+  }
+
+  const validHeadings = ["h1", "h2", "h3", "h4", "h5", "h6"];
+  if (!validHeadings.includes(headingLevel)) {
+    headingLevel = "h2";
+  }
+
+  containerElement.innerHTML = "";
+
+  if (!Array.isArray(projects) || projects.length === 0) {
+    containerElement.innerHTML = "<p>No projects to show yet.</p>";
+    return;
+  }
+
+  for (const project of projects) {
+    const article = document.createElement("article");
+    article.innerHTML = `
+      <${headingLevel}>${project.title ?? "Untitled"}</${headingLevel}>
+      <img src="${project.image ?? ""}" alt="${project.title ?? ""}">
+      <p>${project.description ?? ""}</p>
+    `;
+    containerElement.appendChild(article);
+  }
+}
