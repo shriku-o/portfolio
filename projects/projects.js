@@ -7,6 +7,7 @@ const title = document.querySelector('.projects-title');
 const searchInput = document.querySelector('.searchBar');
 
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
+const HIGHLIGHT = 'oklch(60% 45% 0)'; // color of the selected wedge / legend swatch
 
 // Shared state: BOTH filters live here, so they can always be combined
 let query = '';
@@ -51,7 +52,7 @@ function renderPieChart(projectsGiven) {
     svg
       .append('path')
       .attr('d', arcGenerator(d))
-      .attr('fill', colors(d.data.label))
+      .attr('fill', d.data.label === selectedYear ? HIGHLIGHT : colors(d.data.label))
       .attr('class', d.data.label === selectedYear ? 'selected' : null)
       .on('click', () => toggleYear(d.data.label));
   });
@@ -60,7 +61,7 @@ function renderPieChart(projectsGiven) {
     legend
       .append('li')
       .attr('class', d.label === selectedYear ? 'legend-item selected' : 'legend-item')
-      .attr('style', `--color:${colors(d.label)}`)
+      .attr('style', `--color:${d.label === selectedYear ? HIGHLIGHT : colors(d.label)}`)
       .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
       .on('click', () => toggleYear(d.label));
   });
