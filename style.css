@@ -172,3 +172,12 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color);
   border-radius: 50%;
 }
+
+/* Search bar (Lab 5, Step 4) */
+.searchBar {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em 0.75em;
+  margin-block: 1em;
+}
