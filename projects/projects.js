@@ -12,15 +12,16 @@ if (title && projects) {
   title.textContent = `${projects.length} Projects`;
 }
 
-// Lab 5, Step 2.1: labeled data (placeholder, replaced in a later step)
-let data = [
-  { value: 1, label: 'apples' },
-  { value: 2, label: 'oranges' },
-  { value: 3, label: 'mangos' },
-  { value: 4, label: 'pears' },
-  { value: 5, label: 'limes' },
-  { value: 5, label: 'cherries' },
-];
+// Lab 5, Step 3.1: projects per year from the real data
+let rolledData = d3.rollups(
+  projects,
+  (v) => v.length,
+  (d) => d.year,
+);
+
+let data = rolledData.map(([year, count]) => {
+  return { value: count, label: year };
+});
 
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
@@ -37,7 +38,7 @@ arcs.forEach((arc, idx) => {
     .attr('fill', colors(idx));
 });
 
-// Lab 5, Step 2.2: legend
+// Legend
 let legend = d3.select('.legend');
 data.forEach((d, idx) => {
   legend
