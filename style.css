@@ -127,6 +127,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
+/* Project year (Lab 5, Step 0.1) */
 .project-year {
   font-family: Baskerville, serif;
   font-variant-numeric: oldstyle-nums;
@@ -134,8 +135,40 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0.5em 0 0;
 }
 
+/* Pie chart + legend (Lab 5, Steps 1-2) */
 #projects-pie-plot {
   max-width: 20em;
   margin-block: 2em;
   overflow: visible;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+.legend {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 1em;
+  list-style: none;
+  margin: 0;
+  padding: 1em;
+  border: 1px solid gray;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.swatch {
+  display: inline-block;
+  width: 1em;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color);
+  border-radius: 50%;
 }
