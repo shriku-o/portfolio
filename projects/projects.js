@@ -7,68 +7,92 @@ const title = document.querySelector('.projects-title');
 const searchInput = document.querySelector('.searchBar');
 
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+// Shared state: BOTH filters live here, so they can always be combined
 let query = '';
+let selectedYear = null; // replaces selectedIndex (null = nothing selected)
 
-// Step 4.4: all plotting lives in one function so it can be re-run
-function renderPieChart(projectsGiven) {
-  // re-calculate rolled data
-  let newRolledData = d3.rollups(
-    projectsGiven,
-    (v) => v.length,
-    (d) => d.year,
-  );
-
-  // re-calculate data
-  let newData = newRolledData.map(([year, count]) => {
-    return { value: count, label: year };
-  });
-
-  // re-calculate slice generator, arc data, arcs
-  let newArcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-  let newSliceGenerator = d3.pie().value((d) => d.value);
-  let newArcData = newSliceGenerator(newData);
-  let newArcs = newArcData.map((d) => newArcGenerator(d));
-
-  // clear up paths and legend
-  let newSVG = d3.select('#projects-pie-plot');
-  newSVG.selectAll('path').remove();
-  let legend = d3.select('.legend');
-  legend.selectAll('li').remove();
-
-  // update paths and legend
-  newArcs.forEach((arc, idx) => {
-    newSVG.append('path').attr('d', arc).attr('fill', colors(idx));
-  });
-
-  newData.forEach((d, idx) => {
-    legend
-      .append('li')
-      .attr('class', 'legend-item')
-      .attr('style', `--color:${colors(idx)}`)
-      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
-  });
-}
-
-// Step 4.3: case-insensitive search across all project metadata
-function setQuery(newQuery) {
-  query = newQuery;
+// Projects that match the search query (the pie chart is built from these)
+function getSearchFiltered() {
   return projects.filter((project) => {
     let values = Object.values(project).join('\n').toLowerCase();
     return values.includes(query.toLowerCase());
   });
 }
 
-// Render everything once on page load
-renderProjects(projects, projectsContainer, 'h2');
-renderPieChart(projects);
+// Pie chart + legend, built from the search-filtered projects
+function renderPieChart(projectsGiven) {
+  let rolledData = d3.rollups(
+    projectsGiven,
+    (v) => v.length,
+    (d) => d.year,
+  );
+  let data = rolledData.map(([year, count]) => {
+    return { value: count, label: year };
+  });
+
+  let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  let sliceGenerator = d3.pie().value((d) => d.value);
+  let arcData = sliceGenerator(data);
+
+  // clear old paths and legend items
+  let svg = d3.select('#projects-pie-plot');
+  svg.selectAll('path').remove();
+  let legend = d3.select('.legend');
+  legend.selectAll('li').remove();
+
+  // Step 5.2: click toggles the selected year (click again to deselect)
+  function toggleYear(label) {
+    selectedYear = selectedYear === label ? null : label;
+    render();
+  }
+
+  arcData.forEach((d) => {
+    svg
+      .append('path')
+      .attr('d', arcGenerator(d))
+      .attr('fill', colors(d.data.label))
+      .attr('class', d.data.label === selectedYear ? 'selected' : null)
+      .on('click', () => toggleYear(d.data.label));
+  });
+
+  data.forEach((d) => {
+    legend
+      .append('li')
+      .attr('class', d.label === selectedYear ? 'legend-item selected' : 'legend-item')
+      .attr('style', `--color:${colors(d.label)}`)
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
+      .on('click', () => toggleYear(d.label));
+  });
+}
+
+// One function applies BOTH filters and redraws everything
+function render() {
+  let searchFiltered = getSearchFiltered();
+
+  // If the selected year vanished from the search results, clear the selection
+  if (selectedYear !== null && !searchFiltered.some((p) => p.year === selectedYear)) {
+    selectedYear = null;
+  }
+
+  let visibleProjects =
+    selectedYear === null
+      ? searchFiltered
+      : searchFiltered.filter((p) => p.year === selectedYear);
+
+  renderProjects(visibleProjects, projectsContainer, 'h2');
+  renderPieChart(searchFiltered);
+}
+
+// Initial render on page load
+render();
 
 if (title && projects) {
   title.textContent = `${projects.length} Projects`;
 }
 
-// Re-render on every keystroke ('input' updates in real time; 'change' waits for Enter/blur)
+// Search only updates the query, then re-renders with both filters
 searchInput.addEventListener('input', (event) => {
-  let filteredProjects = setQuery(event.target.value);
-  renderProjects(filteredProjects, projectsContainer, 'h2');
-  renderPieChart(filteredProjects);
+  query = event.target.value;
+  render();
 });
