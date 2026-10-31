@@ -104,7 +104,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
 }
 
-
+/* GitHub profile stats (Lab 4, Step 3) */
 #profile-stats dl {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -125,4 +125,11 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
   font-size: 200%;
   font-weight: bold;
+}
+
+.project-year {
+  font-family: Baskerville, serif;
+  font-variant-numeric: oldstyle-nums;
+  color: gray;
+  margin: 0.5em 0 0;
 }

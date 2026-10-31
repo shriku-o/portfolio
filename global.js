@@ -90,7 +90,7 @@ export async function fetchJSON(url) {
   }
 }
 
-// Lab 4, Step 1.4: render projects into a container
+// Lab 4, Step 1.4 + Lab 5, Step 0.1: render projects (now with year)
 export function renderProjects(projects, containerElement, headingLevel = "h2") {
   if (!(containerElement instanceof Element)) {
     console.error("renderProjects: invalid container element");
@@ -114,12 +114,14 @@ export function renderProjects(projects, containerElement, headingLevel = "h2") 
     article.innerHTML = `
       <${headingLevel}>${project.title ?? "Untitled"}</${headingLevel}>
       <img src="${project.image ?? ""}" alt="${project.title ?? ""}">
-      <p>${project.description ?? ""}</p>
+      <div>
+        <p>${project.description ?? ""}</p>
+        <p class="project-year">${project.year ?? ""}</p>
+      </div>
     `;
     containerElement.appendChild(article);
-  } 
+  }
 }
-
 
 export async function fetchGitHubData(username) {
   return fetchJSON(`https://api.github.com/users/${username}`);
