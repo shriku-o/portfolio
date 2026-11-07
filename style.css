@@ -208,3 +208,12 @@ dl.stats dd {
 path.selected {
   fill: var(--color);
 }
+
+/* Scatterplot gridlines (Lab 6, Step 2.3) */
+.gridlines {
+  stroke-opacity: 0.2;
+}
+
+.gridlines .domain {
+  display: none;
+}
