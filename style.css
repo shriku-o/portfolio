@@ -128,7 +128,7 @@ dl.stats dt {
 dl.stats dd {
   grid-row: 2;
   margin: 0;
-  font-size: 200%;
+  font-size: 125%;
   font-weight: bold;
 }
 
