@@ -240,7 +240,7 @@ const yScale = d3
   .attr('cy', (d) => yScale(d.hourFrac))
   .attr('r', 5)
   .attr('fill', (d) => {
-    const dayness = 1 - Math.abs(d.hourFrac - 12) / 12; // 0 at midnight, 1 at noon
+    const dayness = 1 - Math.abs(d.hourFrac - 12) / 12;
     return d3.interpolateRgb('steelblue', 'orange')(dayness);
   })
   .on('mouseenter', (event, commit) => {
