@@ -139,11 +139,11 @@ function renderScatterPlot(data, commits) {
     .range([usableArea.left, usableArea.right])
     .nice();
 
-  // Normal direction: 0 (midnight) at the bottom, 24 at the top
-const yScale = d3
-  .scaleLinear()
-  .domain([0, 24])
-  .range([usableArea.bottom, usableArea.top]);
+  // 0 (midnight) at the bottom, 24 at the top
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, 24])
+    .range([usableArea.bottom, usableArea.top]);
 
   const [start, end] = xScale.domain();
 
@@ -160,8 +160,8 @@ const yScale = d3
     .join('rect')
     .attr('x', usableArea.left)
     .attr('width', usableArea.width)
-    .attr('y', (d) => yScale(d[0]))
-    .attr('height', (d) => yScale(d[1]) - yScale(d[0]))
+    .attr('y', (d) => Math.min(yScale(d[0]), yScale(d[1])))
+    .attr('height', (d) => Math.abs(yScale(d[1]) - yScale(d[0])))
     .attr('fill', 'steelblue')
     .attr('fill-opacity', 0.08);
 
@@ -229,28 +229,38 @@ const yScale = d3
     .attr('transform', `translate(${usableArea.left}, 0)`)
     .call(yAxis);
 
+  // Step 4.1-4.2: radius scale, circle AREA proportional to lines edited
+  const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
+
+  // Step 4.3: largest dots first, so small dots draw on top and stay hoverable
+  const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+
   // Dots last, so they draw on top
   const dots = svg.append('g').attr('class', 'dots');
 
   dots
-  .selectAll('circle')
-  .data(commits)
-  .join('circle')
-  .attr('cx', (d) => xScale(d.datetime))
-  .attr('cy', (d) => yScale(d.hourFrac))
-  .attr('r', 5)
-  .attr('fill', (d) => {
-    const dayness = 1 - Math.abs(d.hourFrac - 12) / 12;
-    return d3.interpolateRgb('steelblue', 'orange')(dayness);
-  })
-  .on('mouseenter', (event, commit) => {
-    renderTooltipContent(commit);
-    updateTooltipVisibility(true);
-    updateTooltipPosition(event);
-  })
-  .on('mouseleave', () => {
-    updateTooltipVisibility(false);
-  });
+    .selectAll('circle')
+    .data(sortedCommits)
+    .join('circle')
+    .attr('cx', (d) => xScale(d.datetime))
+    .attr('cy', (d) => yScale(d.hourFrac))
+    .attr('r', (d) => rScale(d.totalLines))
+    .attr('fill', (d) => {
+      const dayness = 1 - Math.abs(d.hourFrac - 12) / 12; // 0 at midnight, 1 at noon
+      return d3.interpolateRgb('steelblue', 'orange')(dayness);
+    })
+    .style('fill-opacity', 0.7) // transparency for overlapping dots
+    .on('mouseenter', (event, commit) => {
+      d3.select(event.currentTarget).style('fill-opacity', 1); // full opacity on hover
+      renderTooltipContent(commit);
+      updateTooltipVisibility(true);
+      updateTooltipPosition(event);
+    })
+    .on('mouseleave', (event) => {
+      d3.select(event.currentTarget).style('fill-opacity', 0.7);
+      updateTooltipVisibility(false);
+    });
 }
 
 let data = await loadData();
