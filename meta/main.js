@@ -85,6 +85,34 @@ function renderCommitInfo(data, commits) {
   dl.append('dd').text(maxPeriod);
 }
 
+function renderTooltipContent(commit) {
+  if (Object.keys(commit).length === 0) return;
+
+  const link = document.getElementById('commit-link');
+  link.href = commit.url;
+  link.textContent = commit.id.slice(0, 8);
+
+  document.getElementById('commit-date').textContent =
+    commit.datetime?.toLocaleString('en', { dateStyle: 'full' });
+
+  document.getElementById('commit-time').textContent =
+    commit.datetime?.toLocaleString('en', { timeStyle: 'short' });
+
+  document.getElementById('commit-author').textContent = commit.author;
+  document.getElementById('commit-lines').textContent = commit.totalLines;
+}
+
+function updateTooltipVisibility(isVisible) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.hidden = !isVisible;
+}
+
+function updateTooltipPosition(event) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.style.left = `${event.clientX + 12}px`;
+  tooltip.style.top = `${event.clientY + 12}px`;
+}
+
 function renderScatterPlot(data, commits) {
   const width = 1000;
   const height = 600;
@@ -205,16 +233,24 @@ const yScale = d3
   const dots = svg.append('g').attr('class', 'dots');
 
   dots
-    .selectAll('circle')
-    .data(commits)
-    .join('circle')
-    .attr('cx', (d) => xScale(d.datetime))
-    .attr('cy', (d) => yScale(d.hourFrac))
-    .attr('r', 5)
-    .attr('fill', (d) => {
-      const dayness = 1 - Math.abs(d.hourFrac - 12) / 12; 
-      return d3.interpolateRgb('steelblue', 'orange')(dayness);
-    });
+  .selectAll('circle')
+  .data(commits)
+  .join('circle')
+  .attr('cx', (d) => xScale(d.datetime))
+  .attr('cy', (d) => yScale(d.hourFrac))
+  .attr('r', 5)
+  .attr('fill', (d) => {
+    const dayness = 1 - Math.abs(d.hourFrac - 12) / 12; // 0 at midnight, 1 at noon
+    return d3.interpolateRgb('steelblue', 'orange')(dayness);
+  })
+  .on('mouseenter', (event, commit) => {
+    renderTooltipContent(commit);
+    updateTooltipVisibility(true);
+    updateTooltipPosition(event);
+  })
+  .on('mouseleave', () => {
+    updateTooltipVisibility(false);
+  });
 }
 
 let data = await loadData();
