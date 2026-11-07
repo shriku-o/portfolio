@@ -111,11 +111,11 @@ function renderScatterPlot(data, commits) {
     .range([usableArea.left, usableArea.right])
     .nice();
 
-  // Flipped: 0 (midnight) at the top, 24 at the bottom
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, 24])
-    .range([usableArea.top, usableArea.bottom]);
+  // Normal direction: 0 (midnight) at the bottom, 24 at the top
+const yScale = d3
+  .scaleLinear()
+  .domain([0, 24])
+  .range([usableArea.bottom, usableArea.top]);
 
   const [start, end] = xScale.domain();
 
