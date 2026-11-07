@@ -211,7 +211,7 @@ path.selected {
 
 /* Scatterplot gridlines (Lab 6, Step 2.3) */
 .gridlines {
-  stroke-opacity: 0.2;
+  stroke-opacity: 0.1;
 }
 
 .gridlines .domain {
