@@ -104,23 +104,28 @@ h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
 }
 
-/* GitHub profile stats (Lab 4, Step 3) */
-#profile-stats dl {
+/* GitHub profile stats (Lab 4, Step 3) + code stats (Lab 6, Step 1.3) */
+#profile-stats dl,
+dl.stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: column;
+  grid-template-rows: auto auto;
+  grid-auto-columns: 1fr;
   gap: 0.25em 1em;
   margin: 0;
   text-align: center;
 }
 
-#profile-stats dt {
+#profile-stats dt,
+dl.stats dt {
   grid-row: 1;
   font-size: 80%;
   text-transform: uppercase;
   color: gray;
 }
 
-#profile-stats dd {
+#profile-stats dd,
+dl.stats dd {
   grid-row: 2;
   margin: 0;
   font-size: 200%;
