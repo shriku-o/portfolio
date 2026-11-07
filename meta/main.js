@@ -88,7 +88,7 @@ function renderCommitInfo(data, commits) {
 function renderScatterPlot(data, commits) {
   const width = 1000;
   const height = 600;
-  const margin = { top: 10, right: 10, bottom: 30, left: 20 }; // maybe change left: 40
+  const margin = { top: 10, right: 10, bottom: 55, left: 50 };
 
   const usableArea = {
     top: margin.top,
@@ -111,20 +111,82 @@ function renderScatterPlot(data, commits) {
     .range([usableArea.left, usableArea.right])
     .nice();
 
+  // Flipped: 0 (midnight) at the top, 24 at the bottom
   const yScale = d3
     .scaleLinear()
     .domain([0, 24])
-    .range([usableArea.bottom, usableArea.top]);
+    .range([usableArea.top, usableArea.bottom]);
 
-  // Gridlines first, so they sit behind everything
+  const [start, end] = xScale.domain();
+
+  // Night bands (00:00-06:00 and 18:00-24:00)
+  const nightBands = [
+    [0, 6],
+    [18, 24],
+  ];
+  svg
+    .append('g')
+    .attr('class', 'night-bands')
+    .selectAll('rect')
+    .data(nightBands)
+    .join('rect')
+    .attr('x', usableArea.left)
+    .attr('width', usableArea.width)
+    .attr('y', (d) => yScale(d[0]))
+    .attr('height', (d) => yScale(d[1]) - yScale(d[0]))
+    .attr('fill', 'steelblue')
+    .attr('fill-opacity', 0.08);
+
+  // Month bands, alternating shading
+  const monthStarts = d3.timeMonth.range(d3.timeMonth.floor(start), end);
+  const months = monthStarts.map((m) => ({
+    label: d3.timeFormat('%B %Y')(m),
+    from: m < start ? start : m,
+    to: d3.timeMonth.offset(m, 1) > end ? end : d3.timeMonth.offset(m, 1),
+  }));
+
+  const monthGroup = svg.append('g').attr('class', 'months');
+
+  monthGroup
+    .selectAll('rect')
+    .data(months)
+    .join('rect')
+    .attr('x', (d) => xScale(d.from))
+    .attr('width', (d) => xScale(d.to) - xScale(d.from))
+    .attr('y', usableArea.top)
+    .attr('height', usableArea.height)
+    .attr('fill', 'currentColor')
+    .attr('fill-opacity', (d, i) => (i % 2 === 0 ? 0.05 : 0));
+
+  // Month labels under the axis, centered in each band
+  monthGroup
+    .selectAll('text')
+    .data(months)
+    .join('text')
+    .attr('x', (d) => (xScale(d.from) + xScale(d.to)) / 2)
+    .attr('y', usableArea.bottom + 42)
+    .attr('text-anchor', 'middle')
+    .attr('font-size', 14)
+    .attr('font-weight', 'bold')
+    .attr('fill', 'currentColor')
+    .text((d) => d.label);
+
+  // Horizontal gridlines
   svg
     .append('g')
     .attr('class', 'gridlines')
     .attr('transform', `translate(${usableArea.left}, 0)`)
     .call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
 
-  // Axes
-  const xAxis = d3.axisBottom(xScale);
+  // Axes: X shows day of month only
+  const numDays = d3.timeDay.count(start, end);
+  const dayStep = Math.max(1, Math.ceil(numDays / 25));
+
+  const xAxis = d3
+    .axisBottom(xScale)
+    .ticks(d3.timeDay.every(dayStep))
+    .tickFormat(d3.timeFormat('%-d'));
+
   const yAxis = d3
     .axisLeft(yScale)
     .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
@@ -150,9 +212,9 @@ function renderScatterPlot(data, commits) {
     .attr('cy', (d) => yScale(d.hourFrac))
     .attr('r', 5)
     .attr('fill', (d) => {
-    const dayness = 1 - Math.abs(d.hourFrac - 12) / 12; 
-    return d3.interpolateRgb('steelblue', 'orange')(dayness);
-  });
+      const dayness = 1 - Math.abs(d.hourFrac - 12) / 12; 
+      return d3.interpolateRgb('steelblue', 'orange')(dayness);
+    });
 }
 
 let data = await loadData();
