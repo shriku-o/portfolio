@@ -85,6 +85,12 @@ form button {
   margin: 0;
 }
 
+.projects article img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 /* Step 4.4*/
 h1 {
   font-size: 400%;
