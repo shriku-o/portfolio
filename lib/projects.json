@@ -6,10 +6,10 @@
     "description": "Applied linear mixed-effects models (R, lme4) to longitudinal home-EEG data to study how nightly sleep variability relates to memory, attention, and executive function in adolescents with obstructive sleep apnea."
   },
   {
-    "title": "Personal Portfolio Website",
+    "title": "Bikewatching: Biking data of the Boston Area",
     "year": "2026",
-    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-    "description": "Responsive portfolio built with HTML, CSS, and JavaScript, featuring a dynamic nav menu, dark mode switch, and projects loaded from JSON and the GitHub API."
+    "image": "https://shriku-o.github.io/bikewatching/",
+    "description": "An interactive web map of Bluebikes bike-share activity in the Boston and Cambridge area. Utilizing Mapbox GL JS for the base map and bike lane layers with D3 for the data-driven station markers."
   },
   {
     "title": "fNIRS Neuroimaging Data Cleaning Pipeline",
