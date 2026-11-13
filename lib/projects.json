@@ -8,7 +8,7 @@
   {
     "title": "Bikewatching: Biking data of the Boston Area",
     "year": "2026",
-    "image": "/images/Bikewatching.png",
+    "image": "images/Bikewatching.png",
     "description": "An interactive web map of Bluebikes bike-share activity in the Boston and Cambridge area. Utilizing Mapbox GL JS for the base map and bike lane layers with D3 for the data-driven station markers."
   },
   {
