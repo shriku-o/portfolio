@@ -17,9 +17,6 @@ const usableArea = {
   height: height - margin.top - margin.bottom,
 };
 
-let commitProgress = 100;
-let timeScale;
-let commitMaxTime;
 let filteredCommits;
 
 const colors = d3.scaleOrdinal(d3.schemeTableau10);
@@ -432,30 +429,30 @@ function updateFileDisplay(filteredCommits) {
     .attr('style', (d) => `--color: ${colors(d.type)}`);
 }
 
-// ---------- Filtering (shared by the slider and the scrolly) ----------
+// ---------- Scrolly updates ----------
+const formatTime = (date) =>
+  date.toLocaleString('en', { dateStyle: 'long', timeStyle: 'short' });
+
+// Scrolly 1: scatter plot + stats
 function showCommitsUntil(maxTime) {
-  commitMaxTime = maxTime;
-  commitProgress = timeScale(maxTime);
+  document.getElementById('commit-max-time').textContent = formatTime(maxTime);
 
-  document.getElementById('commit-max-time').textContent =
-    commitMaxTime.toLocaleString('en', { dateStyle: 'long', timeStyle: 'short' });
-
-  filteredCommits = commits.filter((d) => d.datetime <= commitMaxTime);
+  filteredCommits = commits.filter((d) => d.datetime <= maxTime);
   const filteredLines = filteredCommits.flatMap((d) => d.lines);
 
   updateScatterPlot(data, filteredCommits);
   renderCommitInfo(filteredLines, filteredCommits);
-  updateFileDisplay(filteredCommits);
 }
 
-// ---------- Time slider ----------
-function onTimeSliderChange() {
-  const slider = document.getElementById('commit-progress');
-  showCommitsUntil(timeScale.invert(Number(slider.value)));
+// Scrolly 2: file unit visualization
+function showFilesUntil(maxTime) {
+  document.getElementById('file-max-time').textContent = formatTime(maxTime);
+
+  updateFileDisplay(commits.filter((d) => d.datetime <= maxTime));
 }
 
-// ---------- Scrollytelling (Lab 8, Step 3) ----------
-function renderStory(commits) {
+// ---------- Story text ----------
+function renderScatterStory(commits) {
   d3.select('#scatter-story')
     .selectAll('.step')
     .data(commits)
@@ -482,40 +479,68 @@ function renderStory(commits) {
     });
 }
 
-function onStepEnter(response) {
-  const commit = response.element.__data__;
+function renderFileStory(commits) {
+  d3.select('#file-story')
+    .selectAll('.step')
+    .data(commits)
+    .join('div')
+    .attr('class', 'step')
+    .html((d) => {
+      // everything written up to (and including) this commit that still exists today
+      const lines = commits
+        .filter((c) => c.datetime <= d.datetime)
+        .flatMap((c) => c.lines);
+      const byFile = d3
+        .rollups(
+          lines,
+          (v) => v.length,
+          (line) => line.file,
+        )
+        .sort((a, b) => b[1] - a[1]);
+      const [topName, topCount] = byFile[0];
+      const when = d.datetime.toLocaleString('en', { dateStyle: 'long' });
 
-  // keep the slider in sync with the story
-  document.getElementById('commit-progress').value = timeScale(commit.datetime);
-
-  showCommitsUntil(commit.datetime);
+      return `
+        By ${when}, I had written ${lines.length} lines (that still exist today)
+        across ${byFile.length} ${byFile.length === 1 ? 'file' : 'files'}.
+        The biggest file was <code>${topName}</code> at ${topCount} lines.
+      `;
+    });
 }
 
-// ---------- Init ----------
+// ---------- Scrollama ----------
+function onScatterStepEnter(response) {
+  showCommitsUntil(response.element.__data__.datetime);
+}
+
+function onFileStepEnter(response) {
+  showFilesUntil(response.element.__data__.datetime);
+}
+
 let data = await loadData();
 let commits = processCommits(data);
 filteredCommits = commits;
 
-timeScale = d3
-  .scaleTime()
-  .domain([d3.min(commits, (d) => d.datetime), d3.max(commits, (d) => d.datetime)])
-  .range([0, 100]);
-commitMaxTime = timeScale.invert(commitProgress);
-
 renderCommitInfo(data, commits);
 renderScatterPlot(data, commits);
 
-document
-  .getElementById('commit-progress')
-  .addEventListener('input', onTimeSliderChange);
-onTimeSliderChange(); // initialize on page load
+const lastCommitTime = d3.max(commits, (d) => d.datetime);
+showCommitsUntil(lastCommitTime);
+showFilesUntil(lastCommitTime);
 
-renderStory(commits);
+renderScatterStory(commits);
+renderFileStory(commits);
 
-const scroller = scrollama();
-scroller
+scrollama()
   .setup({
     container: '#scrolly-1',
     step: '#scrolly-1 .step',
   })
-  .onStepEnter(onStepEnter);
+  .onStepEnter(onScatterStepEnter);
+
+scrollama()
+  .setup({
+    container: '#scrolly-2',
+    step: '#scrolly-2 .step',
+  })
+  .onStepEnter(onFileStepEnter);

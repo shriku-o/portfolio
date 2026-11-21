@@ -300,28 +300,6 @@ circle.selected {
   fill: #ff6b6b;
 }
 
-/* Commit time slider (Lab 8, Step 1.1) */
-.slider-row {
-  display: flex;
-  align-items: baseline;
-  margin-block: 1em;
-}
-
-.slider-row label {
-  flex: 1;
-  display: flex;
-  align-items: baseline;
-  gap: 1em;
-}
-
-.slider-row input[type="range"] {
-  flex: 0 1 20em;
-}
-
-.slider-row time {
-  margin-left: auto;
-}
-
 /* File unit visualization (Lab 8, Step 2) */
 #files {
   display: grid;
@@ -363,8 +341,9 @@ circle.selected {
   border-radius: 50%;
 }
 
-/* Scrollytelling (Lab 8, Step 3) */
-#scrolly-1 {
+/* Scrollytelling (Lab 8, Steps 3-4) */
+#scrolly-1,
+#scrolly-2 {
   position: relative;
   display: flex;
   gap: 1rem;
@@ -374,18 +353,35 @@ circle.selected {
   }
 }
 
-#scatter-story {
+#scatter-story,
+#file-story {
   position: relative;
 }
 
-#scatter-story .step {
+#scatter-story .step,
+#file-story .step {
   padding-bottom: 40vh;
 }
 
-#scatter-plot {
+#scatter-plot,
+#file-plot {
   position: sticky;
   top: 0;
   left: 0;
   bottom: auto;
+}
+
+#scatter-plot {
   height: 50vh;
+}
+
+#file-plot {
+  height: 70vh;
+  overflow: auto;
+}
+
+.progress {
+  margin: 0 0 0.5em;
+  font-size: 90%;
+  color: gray;
 }

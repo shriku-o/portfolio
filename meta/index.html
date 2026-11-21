@@ -12,17 +12,8 @@
     <h1>Meta</h1>
     <p>
         This page analyzes the code behind this website: how many lines it has,
-        which languages it uses, and when I wrote it.
+        which languages it uses, and when I wrote it. Scroll down to watch it grow.
     </p>
-
-    <div class="slider-row">
-        <label>
-            Show commits until:
-            <input type="range" id="commit-progress" min="0" max="100" value="100">
-            <time id="commit-max-time"></time>
-        </label>
-    </div>
-
 
     <div id="stats"></div>
 
@@ -31,9 +22,20 @@
     <div id="scrolly-1">
         <div id="scatter-story"></div>
         <div id="scatter-plot">
+            <p class="progress">Commits through <time id="commit-max-time"></time></p>
             <div id="chart"></div>
             <p id="selection-count">No commits selected</p>
             <dl id="language-breakdown" class="stats"></dl>
+        </div>
+    </div>
+
+    <h2>Files by size</h2>
+
+    <div id="scrolly-2">
+        <div id="file-story"></div>
+        <div id="file-plot">
+            <p class="progress">Code written through <time id="file-max-time"></time></p>
+            <dl id="files"></dl>
         </div>
     </div>
 
@@ -54,6 +56,5 @@
     <dd id="commit-lines"></dd>
     </dl>
 
-    <dl id="files"></dl>
 </body>
 </html>
