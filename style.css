@@ -263,11 +263,17 @@ dl.info[hidden]:not(:hover, :focus-within) {
   visibility: hidden;
 }
 
-/* Dot hover effect */
+/* Dot hover effect + entry transition (Lab 8, Steps 1.3-1.4) */
 circle {
-  transition: 200ms;
+  /* Constant-speed radius transitions: --r is set per circle in main.js.
+     For same-duration growth instead, use: transition: all 200ms; */
+  transition: all 200ms, r calc(var(--r) * 100ms);
   transform-origin: center;
   transform-box: fill-box;
+
+  @starting-style {
+    r: 0;
+  }
 }
 
 circle:hover {
@@ -292,4 +298,26 @@ circle:hover {
 
 circle.selected {
   fill: #ff6b6b;
+}
+
+/* Commit time slider (Lab 8, Step 1.1) */
+.slider-row {
+  display: flex;
+  align-items: baseline;
+  margin-block: 1em;
+}
+
+.slider-row label {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 1em;
+}
+
+.slider-row input[type="range"] {
+  flex: 0 1 20em;
+}
+
+.slider-row time {
+  margin-left: auto;
 }
