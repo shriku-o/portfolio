@@ -21,6 +21,8 @@ let timeScale;
 let commitMaxTime;
 let filteredCommits;
 
+const colors = d3.scaleOrdinal(d3.schemeTableau10);
+
 // ---------- Data loading ----------
 async function loadData() {
   const data = await d3.csv('loc.csv', (row) => ({
@@ -390,6 +392,44 @@ function updateScatterPlot(data, commits) {
   drawDots(svg.select('g.dots'), commits, rScale);
 }
 
+// ---------- File unit visualization (Lab 8, Step 2) ----------
+function updateFileDisplay(filteredCommits) {
+  const lines = filteredCommits.flatMap((d) => d.lines);
+
+  // Group lines by file, biggest files first (Step 2.3)
+  const files = d3
+    .groups(lines, (d) => d.file)
+    .map(([name, lines]) => ({ name, lines }))
+    .sort((a, b) => b.lines.length - a.lines.length);
+
+  const filesContainer = d3
+    .select('#files')
+    .selectAll('div')
+    .data(files, (d) => d.name)
+    .join((enter) =>
+      enter.append('div').call((div) => {
+        div.append('dt').call((dt) => {
+          dt.append('code');
+          dt.append('small');
+        });
+        div.append('dd');
+      }),
+    );
+
+  // File name + total line count
+  filesContainer.select('dt > code').text((d) => d.name);
+  filesContainer.select('dt > small').text((d) => `${d.lines.length} lines`);
+
+  // One dot per line, colored by technology (Steps 2.2 and 2.4)
+  filesContainer
+    .select('dd')
+    .selectAll('div')
+    .data((d) => d.lines)
+    .join('div')
+    .attr('class', 'loc')
+    .attr('style', (d) => `--color: ${colors(d.type)}`);
+}
+
 // ---------- Time slider ----------
 function onTimeSliderChange() {
   const slider = document.getElementById('commit-progress');
@@ -404,6 +444,7 @@ function onTimeSliderChange() {
 
   updateScatterPlot(data, filteredCommits);
   renderCommitInfo(filteredLines, filteredCommits);
+  updateFileDisplay(filteredCommits);
 }
 
 // ---------- Init ----------

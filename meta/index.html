@@ -16,12 +16,16 @@
     </p>
 
     <div class="slider-row">
-    <label>
-    Show commits until:
-    <input type="range" id="commit-progress" min="0" max="100" value="100">
-    <time id="commit-max-time"></time>
-    </label>
+        <label>
+            Show commits until:
+            <input type="range" id="commit-progress" min="0" max="100" value="100">
+            <time id="commit-max-time"></time>
+        </label>
     </div>
+
+    <dl id="files">
+        <!-- filled in by main.js: one <div><dt>…</dt><dd>…</dd></div> per file -->
+    </dl>
 
     <div id="stats"></div>
 
@@ -52,5 +56,3 @@
 
 </body>
 </html>
-
-
