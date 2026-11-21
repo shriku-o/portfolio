@@ -23,19 +23,19 @@
         </label>
     </div>
 
-    <dl id="files">
-        <!-- filled in by main.js: one <div><dt>…</dt><dd>…</dd></div> per file -->
-    </dl>
 
     <div id="stats"></div>
 
     <h2>Commits by time of day</h2>
-    <div id="chart"></div>
 
-
-    <p id="selection-count">No commits selected</p>
-    <dl id="language-breakdown" class="stats"></dl>
-
+    <div id="scrolly-1">
+        <div id="scatter-story"></div>
+        <div id="scatter-plot">
+            <div id="chart"></div>
+            <p id="selection-count">No commits selected</p>
+            <dl id="language-breakdown" class="stats"></dl>
+        </div>
+    </div>
 
     <dl id="commit-tooltip" class="info tooltip" hidden>
     <dt>Commit</dt>
@@ -54,5 +54,6 @@
     <dd id="commit-lines"></dd>
     </dl>
 
+    <dl id="files"></dl>
 </body>
 </html>
